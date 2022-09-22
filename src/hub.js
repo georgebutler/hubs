@@ -191,6 +191,25 @@ window.APP.RENDER_ORDER = {
   CURSOR: 3
 };
 
+import { applyPersistentSync } from "./utils/permissions-utils";
+import { addMedia, addAndArrangeMedia } from "./utils/media-utils";
+import { isLocalHubsUrl, isLocalHubsSceneUrl, isHubsRoomUrl, isLocalHubsAvatarUrl } from "./utils/media-url-utils";
+import { emojis } from "./systems/emoji-system";
+import * as GLTFModelPlus from "./components/gltf-model-plus";
+
+window.APP.utils = {
+  applyPersistentSync,
+  addMedia,
+  addAndArrangeMedia,
+  isLocalHubsUrl,
+  isLocalHubsSceneUrl,
+  isHubsRoomUrl,
+  isLocalHubsAvatarUrl,
+  handleExitTo2DInterstitial,
+  GLTFModelPlus,
+  emojis
+};
+
 const store = window.APP.store;
 store.update({ preferences: { shouldPromptForRefresh: false } }); // Clear flag that prompts for refresh from preference screen
 const mediaSearchStore = window.APP.mediaSearchStore;
@@ -1261,6 +1280,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         hubIsBound: data.hub_requires_oauth,
         initialIsFavorited: data.subscriptions.favorites
       });
+
+      const scriptURL = data.hubs[0].user_data?.script_url;
+      if (scriptURL) {
+        try {
+          await import(/* webpackIgnore: true */ scriptURL);
+        } catch (err) {
+          console.error(`Custom script for this room failed to load. Reason: ${err}`);
+        }
+      }
 
       await presenceSync.promise;
       handleHubChannelJoined(entryManager, hubChannel, messageDispatch, data, permsToken, hubChannel, events);

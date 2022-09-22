@@ -448,7 +448,7 @@ module.exports = async (env, argv) => {
           loader: "file-loader",
           options: {
             outputPath: "assets/raw-js",
-            name: "[name]-[contenthash].[ext]"
+            name: "[name]-[contenthash][ext]"
           }
         },
         // TODO worker-loader has been deprecated, but we need "inline" support which is not available yet
@@ -543,7 +543,7 @@ module.exports = async (env, argv) => {
                     rootPath = parts.join(path.sep);
                   }
                   // console.log(path, name, contenthash, ext);
-                  return rootPath + "[name]-[contenthash].[ext]";
+                  return rootPath.slice(4) + "[name]-[contenthash][ext]";
                 }
               }
             }
@@ -556,7 +556,7 @@ module.exports = async (env, argv) => {
             loader: "file-loader",
             options: {
               outputPath: "assets/wasm",
-              name: "[name]-[contenthash].[ext]"
+              name: "[name]-[contenthash][ext]"
             }
           }
         },
