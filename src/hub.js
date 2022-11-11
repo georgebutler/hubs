@@ -194,7 +194,8 @@ window.APP.RENDER_ORDER = {
 import { applyPersistentSync } from "./utils/permissions-utils";
 import { addMedia, addAndArrangeMedia } from "./utils/media-utils";
 import { isLocalHubsUrl, isLocalHubsSceneUrl, isHubsRoomUrl, isLocalHubsAvatarUrl } from "./utils/media-url-utils";
-import { emojis } from "./systems/emoji-system";
+import { emojis } from "./components/emoji";
+import { cloneObject3D } from "./utils/three-utils";
 import * as GLTFModelPlus from "./components/gltf-model-plus";
 
 window.APP.utils = {
@@ -206,6 +207,7 @@ window.APP.utils = {
   isHubsRoomUrl,
   isLocalHubsAvatarUrl,
   handleExitTo2DInterstitial,
+  cloneObject3D,
   GLTFModelPlus,
   emojis
 };
